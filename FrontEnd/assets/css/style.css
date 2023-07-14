@@ -95,9 +95,19 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
+nav li a {
+	text-decoration: none;
+	color: inherit;
+}
+
+nav li.active {
+	font-weight: 600;
+}
+
+nav li:hover {
 	color: #B1663C;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -121,10 +131,44 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filters {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	width: 60%;
+	margin: auto; /* pour centrer */
+}
+
+.btn-filter {
+	flex-shrink: 0;
+	flex-grow: 1;
+	text-align: center;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #1D6154;
+	background-color: white;
+	border: 1px solid; /* reset the default parameter of chrome */
+	border-color: #1D6154;
+	border-radius: 60px;
+	margin-bottom: 30px;
+	height: 37px;
+} 
+
+.btn-filter:hover {
+	cursor: pointer;
+}
+
+.btn-filter.active {
+	background-color: #1D6154;
+	color: white;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -133,13 +177,30 @@ li:hover {
 	grid-row-gap: 20px;
 }
 
+.gallery .show {
+	display: block;
+}
+
+.gallery .hide {
+	display: none;
+}
+
 .gallery img {
 	width: 100%;
-
 }
-#contact {
+
+#login div {
+	text-align: center;
+}
+
+#login div a {
+	color: inherit;
+}
+
+#contact,
+#login {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 #contact > * {
 	text-align: center;
@@ -148,20 +209,23 @@ margin: auto;
 #contact h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form,
+#login form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input,
+#login input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label,
+#login label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -169,7 +233,8 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"],
+button[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -178,7 +243,14 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	border: none;
 }
+
+button[type="submit"] {
+	height: 50px;
+}
+
+
 
 footer nav ul {
 	display: flex;
