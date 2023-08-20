@@ -1,0 +1,10 @@
+{
+    "liveServer.settings.CustomBrowser": "chrome:PrivateMode",
+    "liveServer.settings.ignoreFiles": [
+        "Backend/**",
+        ".vscode/**",
+        "**/*.scss",
+        "**/*.sass",
+        "**/*.ts"
+    ]
+}

@@ -1,12 +1,7 @@
-/* export function filterByCategory(listWorks, category) {
-    const list = listWorks.filter(function(work) {
-        return work.category.name === category
-    })
-} */
 import { works } from "./works.js";
 
 
-// To generate one button
+// Generate one button per category in the DOM
 function generateButtonCategory(category) {
     const divFilters = document.querySelector(".filters")
     const buttonElement = document.createElement("button")
@@ -20,7 +15,7 @@ function generateButtonCategory(category) {
 const categories = works.map(work => work.category.name)
 const singleCategories = [...new Set(categories)]
 
-// To add one button per category
+// Add one button per category
 export function generateDivCategory() {
     singleCategories.forEach(category => {
         generateButtonCategory(category)

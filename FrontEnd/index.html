@@ -7,6 +7,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/da9e139664.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/css/style.css">
 	<script type="module" src="./assets/js/script.js" defer></script>
@@ -18,7 +19,7 @@
 		<ul>
 			<li><a href="#portfolio">projets</a></li>
 			<li><a href="#contact">contact</a></li>
-			<li><a href="./login.html">login</a></li>
+			<li class="log">Login</li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -49,13 +50,75 @@
 		<form action="#" method="post">
 			<label for="name">Nom</label>
 			<input type="text" name="name" id="name">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
+			<label for="contact-email">Email</label>
+			<input type="email" name="contact-email" id="contact-email">
 			<label for="message">Message</label>
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
+	<dialog class="modal" id="modal-login">
+		<header>
+			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+			<nav>
+				<ul>
+					<li><a href="#portfolio">projets</a></li>
+					<li><a href="#contact">contact</a></li>
+					<li class="active">Login</li>
+					<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+				</ul>
+			</nav>
+		</header>
+		<h2>Log In</h2>
+		<form method="dialog" novalidate>
+<!-- 			<label for="login-email">E-mail</label>
+			<input type="login-email" name="login-email" id="login-email" autocomplete="on" autofocus>
+ -->			<label for="email">E-mail</label>
+			<input type="email" name="email" id="email" autocomplete="on" autofocus> 
+			<label for="password">Mot de passe</label>
+			<input type="password" name="password" id="password" autocomplete="on">
+			<button type="submit">Se connecter</button>
+			<a href="#">Mot de passe oublié</a>
+		</form>
+		<footer>
+			<nav>
+				<ul>
+					<li>Mentions Légales</li>
+				</ul>
+			</nav>
+		</footer>
+	</dialog>
+	<dialog class="modal" id="modal-edition">
+		<p class="close-modal">x</p>
+		<div class="stop-propagation">
+			<header>Galerie photo</header>
+			<div class="modal-gallery">
+			</div>
+			<hr>
+			<div>
+				<button id="add-photo">Ajouter une photo</button>
+				<button id="delete-gallery">Supprimer la galerie</button>
+			</div>
+		</div>
+	</dialog>
+	<dialog class="modal" id="modal-form">
+		<p class="close-modal">x</p>
+		<div class="stop-propagation">
+			<header>Ajouter photo</header>
+			<form method="dialog" id="add-work"> 
+				<label for="image">Ajouter photo</label>
+				<input type="file" name="image" id="image" accept=".png, .jpg, .jpeg" required> <!-- input image ou file ?-->
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="work-title"required>
+				<label for="">Catégorie</label>
+				<select name="category" id="select-category" required>
+					<option value=""></option>
+					<!-- ajouter en js -->
+				</select>  
+				<button type="submit">Valider</button>
+			</form>
+		</div>
+	</dialog>
 </main>
 
 <footer>

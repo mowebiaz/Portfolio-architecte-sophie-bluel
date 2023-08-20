@@ -1,12 +1,12 @@
 // Contains functions for works
 
-import { fetchWorks } from "./api.js";
+import { getWorks } from "./api.js";
 
 
-// Recover a list of all works
-export const works = await fetchWorks()
+// Recover the list of all works
+export const works = await getWorks()
 
-// To add one work in the DOM
+// Add one work in the DOM
 function generateOneWork(work) {
     const gallery = document.querySelector(".gallery")
     const figure = document.createElement("figure")
@@ -20,16 +20,14 @@ function generateOneWork(work) {
     gallery.appendChild(figure)
     figure.appendChild(figureImage)
     figure.appendChild(figureCaption)
+    // prévoir de l'ajouter au localStorage ou sessionStorage ?
 }
 
-// To add all works in the DOM
+// Add all works in the DOM
 export function generateListWorks(listWorks) {
     listWorks.forEach(work => {
         generateOneWork(work)
     })
 }
-
-
-
 
 // mettre une fonction pour vérifier et ajouter un seul travail avec fetch

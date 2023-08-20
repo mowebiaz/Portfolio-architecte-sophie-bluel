@@ -48,18 +48,28 @@ table {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
-	margin:auto;
-	font-family: 'Work Sans' ;
+	margin: auto;
+	font-family: 'Work Sans';
 	font-size: 14px;
+	background-color: #fffef8;
 }
+
+header, main {
+	max-width: 1140px;
+}
+
+main {
+	margin: auto;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px auto;
 }
+
 section {
-	margin: 50px 0
+	margin: 50px 0;
 }
 
 h1{
@@ -100,12 +110,17 @@ nav li a {
 	color: inherit;
 }
 
-nav li.active {
-	font-weight: 600;
-}
-
 nav li:hover {
 	color: #B1663C;
+	cursor: pointer;
+}
+
+nav li.active {
+	font-weight: 700;
+}
+
+nav li.active:hover {
+	cursor: none;
 }
 
 #introduction {
@@ -121,6 +136,11 @@ nav li:hover {
 	width: 80%;
 }
 
+#introduction figcaption {
+	width: 80%;
+	margin: auto;
+}
+
 #introduction article {
 	flex: 1
 }
@@ -132,17 +152,29 @@ nav li:hover {
 	margin-bottom: 0.5em;
 }
 
+/* #portfolio {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+} */
+
 #portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+	margin-bottom: 1em; /*30px */
 }
 
 .filters {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
+	height: 37px;
 	width: 60%;
-	margin: auto; /* pour centrer */
+	margin: auto;
+	padding: 20px 0 32px 0;
+	/*margin: 51px auto 32px auto; /* pour centrer */
 }
 
 .btn-filter {
@@ -189,20 +221,13 @@ nav li:hover {
 	width: 100%;
 }
 
-#login div {
-	text-align: center;
-}
-
-#login div a {
-	color: inherit;
-}
-
 #contact,
-#login {
+#modal-login form {
 	width: 50%;
 	margin: auto;
 }
-#contact > * {
+#contact > *,
+#modal-login > * {
 	text-align: center;
 
 }
@@ -210,7 +235,7 @@ nav li:hover {
 	margin-bottom: 20px;
 }
 #contact form,
-#login form {
+#modal-login form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
@@ -218,14 +243,14 @@ nav li:hover {
 }
 
 #contact input,
-#login input {
+#modal-login form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 #contact label,
-#login label {
+#modal-login form label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -234,7 +259,7 @@ nav li:hover {
 }
 
 input[type="submit"],
-button[type="submit"]{
+button[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -244,17 +269,231 @@ button[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 	border: none;
+	cursor: pointer;
 }
 
 button[type="submit"] {
 	height: 50px;
 }
 
+.error {
+	background-color: red;
+	border-radius: 10px;
+	padding: 1rem;
+	font-weight: bold;
+}
 
+.edition {
+	height: 60px;
+	background-color: black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.edition-nav {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	gap: 20px;
+	/*font-style: inherit;*/
+}
+
+.publication {
+	border-radius: 60px;
+	height: fit-content;
+	padding: 11px 23px;
+	border: none;
+}
+
+.open-edition {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	border: none; /*reset style */
+	padding: 0; /*reset style */
+}
+
+.open-edition:hover {
+	cursor: pointer;
+}
+
+.edition-nav .open-edition {
+	color: white;
+	background-color: black;
+}
+
+#portfolio .open-edition,
+#introduction .open-edition {
+	color: black;
+	background-color: #fffef8;
+}
+
+.fa-pen-to-square {
+	font-size: 19px;
+}
+
+footer {
+	background-color: white;
+}
 
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	padding: 2em;
+	margin: 0 150px;
 }
+
+/* dialog: reset style */
+dialog {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+/* end reset style */
+
+dialog[open] {
+	display: flex;
+	flex-direction: column;
+}
+
+dialog::backdrop {
+	background: rgba(0, 0, 0, 0.30);
+}
+
+/* No overflow on main page when modal is open */
+html:has(dialog[open]) {
+    overflow: hidden;
+}  
+
+#modal-login {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	background-color: #fffef8;
+	justify-content: center;
+}
+
+
+#modal-login header {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px auto;
+	width: 100%;
+}
+
+#modal-login a {
+	text-align: center;
+	color: black;
+}
+
+#modal-login footer {
+	margin-top: auto;
+}
+
+#modal-edition, #modal-form {
+	margin: auto;
+	border-radius: 10px;
+	position: relative;
+	/*width: 630px;*/
+}
+
+.stop-propagation button{
+	display: block;
+}
+
+.close-modal {
+	font-size: 24px;
+	display: block;
+	position: absolute;
+	top: 26px;
+	right: 30px;
+	cursor: pointer;
+}
+
+#modal-edition header,
+#modal-form header {
+	font-size: 26px;
+	justify-content: center;
+}
+
+.modal-gallery {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-auto-flow: row;
+	column-gap: 6px;
+	row-gap: 12px;
+	margin: 0 105px;
+}
+
+.modal-gallery img {
+	height: 103px;
+}
+
+hr {
+	color: #B3B3B3;
+	size: 1px;
+	width: 420px;
+}
+
+.figure-div {
+	position: relative;
+}
+
+.remove-photo {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 17px;
+	height: 17px;
+	background-color: black;
+	border-radius: 2px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.fa-trash-can {
+	color: white;
+	font-size: 9px;
+	pointer-events: none;
+} 
+
+#add-photo, 
+#delete-gallery {
+	font-family: 'Syne';
+	text-align: center;
+	cursor: pointer;
+	border: none;
+	margin: 2em auto;
+}
+
+#add-photo {
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	border-radius: 60px ;
+	height: 36px;
+	width: 237px;
+}
+
+#delete-gallery {
+	font-weight: 400;
+	color: #D65353;
+	background-color: white;
+}
+
+#add-work {
+	display: flex;
+	flex-direction: column;
+	margin: 50px;
+}
+
+
+
+
+
+
+
 
