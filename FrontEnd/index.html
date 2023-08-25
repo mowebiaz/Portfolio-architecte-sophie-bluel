@@ -10,7 +10,7 @@
 	<script src="https://kit.fontawesome.com/da9e139664.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/css/style.css">
-	<script type="module" src="./assets/js/script.js" defer></script>
+	<script type="module" src="./assets/js/main.js" defer></script>
 </head>
 <body>
 <header>
@@ -70,10 +70,8 @@
 			</nav>
 		</header>
 		<h2>Log In</h2>
-		<form method="dialog" novalidate>
-<!-- 			<label for="login-email">E-mail</label>
-			<input type="login-email" name="login-email" id="login-email" autocomplete="on" autofocus>
- -->			<label for="email">E-mail</label>
+		<form method="dialog">
+			<label for="email">E-mail</label>
 			<input type="email" name="email" id="email" autocomplete="on" autofocus> 
 			<label for="password">Mot de passe</label>
 			<input type="password" name="password" id="password" autocomplete="on">
@@ -89,34 +87,9 @@
 		</footer>
 	</dialog>
 	<dialog class="modal" id="modal-edition">
-		<p class="close-modal">x</p>
-		<div class="stop-propagation">
-			<header>Galerie photo</header>
-			<div class="modal-gallery">
-			</div>
-			<hr>
-			<div>
-				<button id="add-photo">Ajouter une photo</button>
-				<button id="delete-gallery">Supprimer la galerie</button>
-			</div>
-		</div>
-	</dialog>
-	<dialog class="modal" id="modal-form">
-		<p class="close-modal">x</p>
-		<div class="stop-propagation">
-			<header>Ajouter photo</header>
-			<form method="dialog" id="add-work"> 
-				<label for="image">Ajouter photo</label>
-				<input type="file" name="image" id="image" accept=".png, .jpg, .jpeg" required> <!-- input image ou file ?-->
-				<label for="title">Titre</label>
-				<input type="text" name="title" id="work-title"required>
-				<label for="">Catégorie</label>
-				<select name="category" id="select-category" required>
-					<option value=""></option>
-					<!-- ajouter en js -->
-				</select>  
-				<button type="submit">Valider</button>
-			</form>
+		<i class="fa-solid fa-arrow-left return"></i>
+		<i class="fa-solid fa-xmark close-modal"></i>
+		<div class="modal-content">
 		</div>
 	</dialog>
 </main>
@@ -130,3 +103,4 @@
 </footer>
 </body>
 </html>
+

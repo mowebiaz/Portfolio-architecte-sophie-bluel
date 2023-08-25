@@ -1,12 +1,12 @@
-import { works, generateListWorks } from "./works.js";
+import { works, generateAllWorks } from "./works.js";
 import { generateDivCategory, filterByCategory } from "./categoryButtons.js";
 import { login, loggedUser } from "./loginLogout.js";
-import { generateEditionModal } from "./editionDialogs/editionModal.js";
-import { addWork, trashWork } from "./editionDialogs/addDeleteWork.js";
+import { openEditionModal, closeEditionModal } from "./editionModal.js";
 
+/* const addForm = document.getElementById("add-work")
+ */
 
-
-generateListWorks(works)
+generateAllWorks(works)
 generateDivCategory()
 filterByCategory()
 
@@ -17,20 +17,8 @@ if (token === null) {
     loggedUser()
 }
 
-
-
-
-
-/* 
-generateEditionModal(works)
-
-addWork() */
-
-
-
-
-
-
+openEditionModal(works)
+closeEditionModal()
 
 
 

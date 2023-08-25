@@ -1,6 +1,6 @@
 // Contains functions for works
 
-import { getWorks } from "./api.js";
+import { getWorks, deleteWork, postWork } from "./api.js";
 
 
 // Recover the list of all works
@@ -24,10 +24,40 @@ function generateOneWork(work) {
 }
 
 // Add all works in the DOM
-export function generateListWorks(listWorks) {
+export function generateAllWorks(listWorks) {
     listWorks.forEach(work => {
         generateOneWork(work)
     })
 }
 
-// mettre une fonction pour vérifier et ajouter un seul travail avec fetch
+
+
+// to delete one work 
+export async function trashWork() {
+    const trash = document.querySelectorAll(".remove-photo")
+    trash.forEach(icon => {
+        icon.addEventListener("click", async (Event) => {
+            const workId = Event.target.parentElement.id
+            /*console.log("l'id du parent est:", workId)*/
+            try {
+                const response = await deleteWork(workId);
+                if (response.ok) {
+                    // Supprimer l'élément de la gallery de la modale après la suppression réussie
+                    Event.target.parentElement.remove();
+                    // supprimer l'élément du portfolio: pas possible sans l'ID
+                    // sinon refaire un generateallworks
+                } else {
+                    console.error("Failed to delete work with ID:", workId)
+                }
+            } catch (error) {
+                console.error("Error deleting work:", error)
+            }
+        })
+    });
+}
+
+export function deleteGallery() {
+    document.getElementById("delete-gallery").addEventListener("click", () => {
+        // appliquer la ft deleteWork() sur tous les works
+    })
+}

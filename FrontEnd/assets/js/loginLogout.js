@@ -1,8 +1,6 @@
-import { displayErrorMessage } from "./dom.js";
+import { displayLoginError } from "./dom.js";
 import { postUser } from "./api.js";
 import { generateHomeEdition, removeHomeEdition } from "./editionMode.js";
-import { openEditionModal, closeEditionModal } from "./editionDialogs/editionModal.js";
-import { openEditionForm, closeEditionForm, selectCategory } from "./editionDialogs/editionForm.js";
 
 export const logBtn = document.querySelector(".log")
 export const loginModal = document.getElementById("modal-login") /*pourquoi export ? */
@@ -42,7 +40,7 @@ async function checkUser() {
         emailValidation(email)
         passwordValidation(password)
     } catch (error) {
-        displayErrorMessage(error.message)
+        displayLoginError(error.message)
         return /* à revoir */
     }
 
@@ -55,37 +53,9 @@ async function checkUser() {
         loginModal.close()
         loggedUser()
     } else {
-        displayErrorMessage("Erreur dans l’identifiant ou le mot de passe")
+        displayLoginError("Erreur dans l’identifiant ou le mot de passe")
     }
 }
-
-// To check that the user exist in the dB 
-// and switch to edition mode
-/* export async function login() {
-    const email = document.getElementById("login-email").value
-    const password = document.getElementById("password").value
-    const user = {email: email, password: password} 
-    const modal = document.getElementById("modal-login")
-    try {
-        emailValidation(email)
-        passwordValidation(password)
-
-    } catch (error) {
-        errorMessage(error.message)
-        return /* à revoir 
-    }
-    const checkUser = await getUser(user)
-    if (checkUser.ok) {
-        const response = await checkUser.json()
-        let token = response.token
-        window.sessionStorage.setItem("token", token)
-        homeEdition()
-        modal.close()
-    } else {
-        errorMessage("Erreur dans l’identifiant ou le mot de passe")
-    }
-} */
-
 
 // Open the modal for login form
 export const openLoginModal = () => {
@@ -114,13 +84,6 @@ export function loggedUser() {
     logBtn.removeEventListener("click", openLoginModal)
     generateHomeEdition()
     logBtn.addEventListener("click", submitLogout)
-
-    openEditionModal()
-    closeEditionModal()
-
-    openEditionForm()
-    selectCategory()
-    closeEditionForm()
 }
         
 

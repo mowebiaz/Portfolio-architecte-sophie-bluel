@@ -234,8 +234,10 @@ nav li.active:hover {
 #contact h2{
 	margin-bottom: 20px;
 }
+
 #contact form,
-#modal-login form {
+#modal-login form,
+#add-work {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
@@ -243,16 +245,60 @@ nav li.active:hover {
 }
 
 #contact input,
-#modal-login form input {
+#modal-login form input,
+#add-work input,
+#add-work select,
+#add-work select option {
 	height: 50px;
-	font-size: 1.2em;
+	font-family: 'Work Sans';
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
+#contact input,
+#modal-login form input {
+	font-size: 1.2em;
+}
+
+#add-work input,
+#add-work select,
+#add-work select option {
+	font-size: 14px;
+}
+
 #contact label,
-#modal-login form label {
+#modal-login form label,
+#add-work label {
 	margin: 2em 0 1em 0;
 }
+
+.select-img {
+	border-radius: 50px;
+	background-color: #CBD6DC;
+	height: 36px;
+	width: 173px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	color: #306685;
+	font-weight: 500;
+}
+
+.container-img input[type="file"] {
+	display: none;
+}
+
+.icon-image {
+	font-size: 58px;
+	color: #CBD6DC;
+}
+
+.container-img p {
+	font-size: 10px;
+	color: #444;
+}
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -274,6 +320,11 @@ button[type="submit"] {
 
 button[type="submit"] {
 	height: 50px;
+}
+
+button[type="submit"]:disabled {
+	background-color: #A7A7A7;
+	cursor: not-allowed;
 }
 
 .error {
@@ -344,13 +395,11 @@ footer nav ul {
 	margin: 0 150px;
 }
 
-/* dialog: reset style */
-dialog {
+dialog { /* reset style for dialog */
 	border: none;
 	margin: 0;
 	padding: 0;
 }
-/* end reset style */
 
 dialog[open] {
 	display: flex;
@@ -392,28 +441,43 @@ html:has(dialog[open]) {
 	margin-top: auto;
 }
 
-#modal-edition, #modal-form {
+#modal-edition {
+	position: fixed;
+	/*position: relative;*/
 	margin: auto;
 	border-radius: 10px;
-	position: relative;
-	/*width: 630px;*/
+	display: flex;
+	width: 630px;
+
 }
 
-.stop-propagation button{
+.modal-content button{
 	display: block;
+}
+
+.close-modal, 
+.return {
+	display: block;
+	position: absolute;
+	top: 26px;
+	cursor: pointer;
 }
 
 .close-modal {
 	font-size: 24px;
-	display: block;
-	position: absolute;
-	top: 26px;
 	right: 30px;
-	cursor: pointer;
 }
 
-#modal-edition header,
-#modal-form header {
+.return {
+	font-size: 21px;
+	left: 30px;
+}
+
+.modal-content {
+	padding: 0 105px;
+}
+
+.modal-content header {
 	font-size: 26px;
 	justify-content: center;
 }
@@ -424,11 +488,13 @@ html:has(dialog[open]) {
 	grid-auto-flow: row;
 	column-gap: 6px;
 	row-gap: 12px;
-	margin: 0 105px;
+
 }
 
-.modal-gallery img {
+.modal-gallery img { /* à revoir */
 	height: 103px;
+	width: 100%;
+	object-fit: cover;
 }
 
 hr {
@@ -442,6 +508,7 @@ hr {
 }
 
 .remove-photo {
+	display: flex;
 	position: absolute;
 	top: 5px;
 	right: 5px;
@@ -449,7 +516,6 @@ hr {
 	height: 17px;
 	background-color: black;
 	border-radius: 2px;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 }
@@ -484,11 +550,23 @@ hr {
 	background-color: white;
 }
 
-#add-work {
+.container-img {
+	height: 170px;
+	width: 420px;
+	background-color: #E8F1F6;
+	border-radius: 3px;
 	display: flex;
 	flex-direction: column;
-	margin: 50px;
+	align-items: center;
 }
+
+.container-img img { /* à revoir */
+	object-fit: contain;
+	max-height: 170px;
+	max-width: 420px;
+}
+
+
 
 
 

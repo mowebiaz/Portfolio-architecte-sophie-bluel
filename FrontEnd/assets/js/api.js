@@ -22,11 +22,11 @@ export async function postUser(user) {
 }
 
 export async function postWork(data) {
-    /*let token = window.sessionStorage.getItem('token')*/
+    let token = window.sessionStorage.getItem('token')
     const response = await fetch("http://localhost:5678/api/works", {
         method: "POST", 
         body: data,
-        headers: {"Authorization": `Bearer ${token}`}
+        headers: {Authorization: `Bearer ${token}`}
     })
     console.log(response)
     return response
@@ -34,20 +34,19 @@ export async function postWork(data) {
 
 export async function deleteWork(workId) { /* à revoir */
     try {
-        /*let token = window.sessionStorage.getItem('token')*/
+        let token = window.sessionStorage.getItem('token')
         const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
         headers: {Authorization: `Bearer ${token}`}
         })
-        return response
+        const result = await response.json()
+        return result
     } catch (error) {
         console.error(error)
     }
 }
 
-/*
-Authorization: Bearer <token>
-*/
+
 
 
 

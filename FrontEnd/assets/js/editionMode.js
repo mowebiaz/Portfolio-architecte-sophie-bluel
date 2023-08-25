@@ -36,7 +36,7 @@ export function removeHomeEdition() {
     headerEdition.remove()
     /*document.querySelectorAll(btnEdition).remove()*/
     figCaption.remove()
-    h2.innerHTML -= btnEdition
+    h2.innerHTML = "Mes Projets"
     logBtn.innerHTML = "Login"
 }
 
