@@ -1,7 +1,7 @@
 import { works, generateAllWorks } from "./works.js";
 import { generateDivCategory, filterByCategory } from "./categoryButtons.js";
 import { login, loggedUser } from "./loginLogout.js";
-import { openEditionModal, closeEditionModal } from "./editionModal.js";
+import { openEditionModal, closeEditionModal, openEditionForm, addWork } from "./editionModal.js";
 
 /* const addForm = document.getElementById("add-work")
  */
@@ -17,12 +17,9 @@ if (token === null) {
     loggedUser()
 }
 
-openEditionModal(works)
-closeEditionModal()
 
-
-
-
+/*openEditionModal(works)
+closeEditionModal()*/
 
 
 

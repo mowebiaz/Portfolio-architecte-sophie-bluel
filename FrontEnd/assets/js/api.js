@@ -23,18 +23,23 @@ export async function postUser(user) {
 
 export async function postWork(data) {
     let token = window.sessionStorage.getItem('token')
-    const response = await fetch("http://localhost:5678/api/works", {
+    try {
+        const response = await fetch("http://localhost:5678/api/works", {
         method: "POST", 
         body: data,
         headers: {Authorization: `Bearer ${token}`}
-    })
-    console.log(response)
-    return response
+        })
+        console.log(response)
+        return response
+    } catch (error) {
+        console.error(error)
+    }
+
 }
 
 export async function deleteWork(workId) { /* à revoir */
+    let token = window.sessionStorage.getItem('token') /* avant ou après le try ? */
     try {
-        let token = window.sessionStorage.getItem('token')
         const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
         headers: {Authorization: `Bearer ${token}`}

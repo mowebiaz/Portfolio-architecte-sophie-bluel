@@ -1,13 +1,10 @@
-import { getCategories, postWork } from "./api.js";
-import { displayEditionError } from "./dom.js";
+import { getCategories, postWork } from "./api.js"
+import { displayEditionError } from "./dom.js"
 
 const editionModal = document.getElementById("modal-edition")
 const modalContent = document.querySelector("#modal-edition .modal-content")
 const returnIcon = document.querySelector(".return")
-const inputImage = document.getElementById("image")
-const inputTitle = document.getElementById("title")
-const inputCategory = document.getElementById("category")
-const submitBtn = document.querySelector("#add-work button")
+
 
 
 //--------------------------------------------------------------------------------
@@ -16,7 +13,6 @@ const submitBtn = document.querySelector("#add-work button")
 
 export function closeEditionModal() {
     const editionCloseBtn = document.querySelector("#modal-edition .close-modal") 
-    const editionModal = document.getElementById("modal-edition")
     editionCloseBtn.addEventListener("click", () => {
         /*editionModal.close() pas nécessaire car le stop.stopPropagation ne le concerne pas */
         modalContent.innerHTML = ""
@@ -85,7 +81,7 @@ export function openEditionModal(listWorks) {
             editionModal.showModal()
             // supprimer un travail
             // supprimer la galery
-            openEditionForm(listWorks) /*see below */
+            /*openEditionForm(listWorks) /*see below */
         })
     })
 }
@@ -139,6 +135,7 @@ function returnToFirstModal(listWorks) {
     })
 }
 
+
 // 
 export function openEditionForm(listWorks) {
     const formOpenBtn = document.getElementById("add-photo")
@@ -148,16 +145,21 @@ export function openEditionForm(listWorks) {
         returnToFirstModal(listWorks)
         /*addWork()*/
     })
-}
+} 
+
 
 //--------------------------------------------------------------------------------
 // Management of the form
 //--------------------------------------------------------------------------------
-
+const inputImage = document.getElementById("image")
+const inputTitle = document.getElementById("title")
+const inputCategory = document.getElementById("category")
+const submitBtn = document.querySelector("#add-work button")
 
 
 //
 function checkValidity() {
+
     if (inputImage === "" || inputTitle.value.trim() === "" || inputCategory.value === "") {
         submitBtn.setAttribute("disabled", "true");
     } else {
@@ -225,7 +227,8 @@ function submitWork() {
     })
         /*addForm.addEventListener("submit", async (e) => {
             e.preventDefault()
-            const response = await postWork(new FormData(addForm))     
+            const response = await postWork(new FormData(addForm))   
+            console.log(response)  
             const result = await response.json();
                 /*const response = await postWork(workData)
                 console.log(response)
