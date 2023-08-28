@@ -410,10 +410,10 @@ dialog::backdrop {
 	background: rgba(0, 0, 0, 0.30);
 }
 
-/* No overflow on main page when modal is open */
+/* No overflow on main page when modal is open 
 html:has(dialog[open]) {
     overflow: hidden;
-}  
+}  */
 
 #modal-login {
 	width: 100%;
@@ -518,6 +518,7 @@ hr {
 	border-radius: 2px;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 }
 
 .fa-trash-can {

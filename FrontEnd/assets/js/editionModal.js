@@ -1,4 +1,4 @@
-import { getCategories, postWork } from "./api.js"
+import { getCategories, postWork, deleteWork, getWorks } from "./api.js"
 import { displayEditionError } from "./dom.js"
 
 const editionModal = document.getElementById("modal-edition")
@@ -11,7 +11,7 @@ const returnIcon = document.querySelector(".return")
 // close the modal: gallery or form
 //--------------------------------------------------------------------------------
 
-export function closeEditionModal() {
+export function closeModals() {
     const editionCloseBtn = document.querySelector("#modal-edition .close-modal") 
     editionCloseBtn.addEventListener("click", () => {
         /*editionModal.close() pas nécessaire car le stop.stopPropagation ne le concerne pas */
@@ -59,7 +59,7 @@ function generateEditionGallery(listWorks) {
 }
 
 // Generate edition modal with gallery
-function generateEditionModal(listWorks) {
+export function generateEditionModal(listWorks) {
     modalContent.innerHTML = `<header>Galerie photo</header>
                             <div class="modal-gallery">
                             </div>
@@ -72,6 +72,28 @@ function generateEditionModal(listWorks) {
     generateEditionGallery(listWorks)
 }
 
+// Delete one work from dB, galery and portfolio
+async function trashWork() {
+    const trash = document.querySelectorAll(".remove-photo")
+    trash.forEach(icon => {
+        icon.addEventListener("click", async (Event) => {
+            const workId = Event.target.parentElement.id
+            const figureToDelete = document.querySelector(`.gallery figure[id="${workId}"]`)
+            console.log("l'id du parent est:", workId)
+            console.log("portfolio:", figureToDelete)
+            const response = await deleteWork(workId)
+            console.log(response)
+            if (response.ok) {
+                Event.target.parentElement.remove()
+                figureToDelete.remove()
+            } else {
+                displayEditionError("Impossible de supprimer le travail:", workId)
+            }
+        })
+    })
+}
+
+
 // Open the edition modal (gallery): button "Editer"
 export function openEditionModal(listWorks) {
     const editionOpenBtn = document.querySelectorAll(".open-edition")  
@@ -79,12 +101,13 @@ export function openEditionModal(listWorks) {
         button.addEventListener("click", () => {
             generateEditionModal(listWorks)
             editionModal.showModal()
-            // supprimer un travail
+            trashWork()
             // supprimer la galery
-            /*openEditionForm(listWorks) /*see below */
         })
     })
 }
+
+
 
 
 //--------------------------------------------------------------------------------
@@ -92,14 +115,14 @@ export function openEditionModal(listWorks) {
 //--------------------------------------------------------------------------------
 
 // Generate the modal body
-function generateEditionForm() {
+export function generateEditionForm() {
     modalContent.innerHTML = `<header>Ajout photo</header>
                         <form method="dialog" id="add-work" novalidate> 
                         <div class="container-img">
-                        <i class="fa-solid fa-image icon-image"></i>
-                        <label for="image" class="select-img">+ Ajouter photo</label>
-                        <input type="file" name="image" id="image" required>
-                        <p>jpg, png : 4mo max</p>
+                            <i class="fa-solid fa-image icon-image"></i>
+                            <label for="image" class="select-img">+ Ajouter photo</label>
+                            <input type="file" name="image" id="image" required>
+                            <p>jpg, png : 4mo max</p>
                         </div>
                         <label for="title">Titre</label>
                         <input type="text" name="title" id="title" required>
@@ -108,13 +131,13 @@ function generateEditionForm() {
                             <option value=""></option>
                         </select>  
                         <hr>
-                        <button type="submit" disabled>Valider</button>
+                        <button type="submit" id="submit-work" disabled>Valider</button>
                         </form>`
     returnIcon.style.display = "block"
 }
 
 // fetch categories and add them to the form's select button
-async function selectCategory() {
+export async function selectCategory() {
     const categories = await getCategories()
     const formSelect = document.getElementById("category")
     categories.forEach(category => {
@@ -125,8 +148,8 @@ async function selectCategory() {
     });
 }
 
-// button "return" to the edition modal (with gallery)
-function returnToFirstModal(listWorks) {
+// button "return" to the edition (first) modal
+export function returnToFirstModal(listWorks) {
     const returnBtn = document.querySelector(".return")
     returnBtn.addEventListener("click", (event) => {
         event.stopPropagation()
@@ -138,27 +161,22 @@ function returnToFirstModal(listWorks) {
 
 // 
 export function openEditionForm(listWorks) {
-    const formOpenBtn = document.getElementById("add-photo")
-    formOpenBtn.addEventListener("click", () => {
-        generateEditionForm()
-        selectCategory()
-        returnToFirstModal(listWorks)
-        /*addWork()*/
-    })
+    generateEditionForm()
+    selectCategory()
+    returnToFirstModal(listWorks)
+    checkEditionForm()
+    addWork()
 } 
 
 
 //--------------------------------------------------------------------------------
 // Management of the form
 //--------------------------------------------------------------------------------
-const inputImage = document.getElementById("image")
-const inputTitle = document.getElementById("title")
-const inputCategory = document.getElementById("category")
-const submitBtn = document.querySelector("#add-work button")
 
 
-//
-function checkValidity() {
+
+function checkValidity(inputImage, inputTitle, inputCategory) {
+    const submitBtn = document.getElementById("submit-work")
 
     if (inputImage === "" || inputTitle.value.trim() === "" || inputCategory.value === "") {
         submitBtn.setAttribute("disabled", "true");
@@ -168,13 +186,20 @@ function checkValidity() {
 }
 
 
+
+
 // Validate each input 
 function checkEditionForm() {
     const containerImg = document.querySelector(".container-img")
+    const containerIcon = document.querySelector(".icon-image svg")
+    const containerLabel = document.querySelector(".container-img label")
+    const containerInput = document.querySelector(".container-img input")
+    const containerParagraphe = document.querySelector(".container-img p")
+    const inputImage = document.getElementById("image")
+    const inputTitle = document.getElementById("title")
+    const inputCategory = document.getElementById("category")
 
     inputImage.addEventListener("change", event => {
-        console.log("inputImage", inputImage)
-        console.log("typeof", typeof inputImage.value)
         const allowedFormats = ["image/jpeg", "image/jpg", "image/png"];
         if (inputImage.value.trim() === "") {
             displayEditionError("Vous devez sélectionner une image")
@@ -186,87 +211,91 @@ function checkEditionForm() {
                 displayEditionError("L'image doit être de type .jpg ou .png")
             } else {  /*valid picture */
                 displayEditionError("")
+                /*containerIcon.style.style.display = "none" à revoir */
+                containerLabel.style.display = "none"
+                containerInput.style.display ="none"
+                containerParagraphe.style.display = "none"
                 const imageUrl = URL.createObjectURL(selectedImage)
-                console.log(imageUrl)
-                containerImg.innerHTML = `<img src="${imageUrl}" alt="Image Preview">`   
-            }
+                const showPhoto = `<img src="${imageUrl}" alt="Image Preview">` 
+                containerImg.innerHTML += showPhoto
+             }
         }
-        checkValidity()
+        checkValidity(inputImage, inputTitle, inputCategory)
     })
 
     inputTitle.addEventListener("change", () => {
         if (inputTitle.value.trim() === "") {
             displayEditionError("Vous devez indiquer attribuer un titre à votre travail")
-        }
-        checkValidity()
+        } 
+        checkValidity(inputImage, inputTitle, inputCategory)
     })
 
     inputCategory.addEventListener("change", () => {
         if (inputCategory.value.trim() === "") {
             displayEditionError("Vous devez indiquer une catégorie")
-        }
-        checkValidity()
+        } 
+        checkValidity(inputImage, inputTitle, inputCategory)
     })
 }
 
-// Validate and submit the form
-function submitWork() {
+// Validate and submit the workData
+/*export function addWork() {
     const addForm = document.getElementById("add-work")
+    const submitBtn = document.getElementById("submit-work")
 
-    /*const workData = new FormData()*/
-    /* Pour empêcher la modale de se dermer au clic sur submit
-    editionModal.addEventListener('submit', (event) => event.stopPropagation());*/
-    submitBtn.addEventListener("submit", async (e) => {
-        e.preventDefault()
-        if (submitBtn.hasAttribute("disabled")) {
-            return
-        } else {
-            let workData = new FormData(addForm)
-            console.log([...workData.entries()])
-        }
-    })
-        /*addForm.addEventListener("submit", async (e) => {
-            e.preventDefault()
-            const response = await postWork(new FormData(addForm))   
-            console.log(response)  
-            const result = await response.json();
-                /*const response = await postWork(workData)
-                console.log(response)
-                return response 
-        })*/
+    /* Pour empêcher la modale de se dermer au clic sur submit*/
+    /*submitBtn.addEventListener('click', (event) => event.preventDefault())
     
+    if (submitBtn.hasAttribute("disabled")) {
+        return
+    } else {
+        addForm.addEventListener("submit", async (e) => {
+            e.preventDefault()
+            console.log("c'est le submit du form")
+            const workData = new FormData (addForm)
+            console.log([...workData.entries()])
+            /*const response = await postWork(new FormData(addForm))
+            console.log(response)
+            displayEditionError("xxx")
+
+           /* if (response.ok) {
+                e.preventDefault()
+                const newWork = await response.json()
+                console.log(newWork)
+                displayEditionError("xxx")
+                /*generateEditionModal(works)
+                editionModal.showModal()  
+            } else {
+                displayEditionError("Impossible d'ajouter ce travail")
+            }
+        })
+    }    
+}*/
+
+export async function addWork() {
+    const inputImage = document.getElementById("image")
+    const inputTitle = document.getElementById("title")
+    const inputCategory = document.getElementById("category")
+    const addForm = document.getElementById("add-work")
+    const submitBtn = document.getElementById("submit-work")
+
+/*     if (submitBtn.hasAttribute("disabled")) {
+        return
+    } else {
+    } */
+    addForm.addEventListener("submit", async (e) => {
+        let workData = new FormData()
+        workData.append("image", inputImage.files[0])
+        workData.append("title", inputTitle.value)
+        workData.append("category", inputCategory.value)
+        e.preventDefault()
+        const response = await postWork(workData)
+        console.log(response)
+    })
 }
 
 
-// Add one work, refrsh the modal's gallery and portfolio
-export function addWork() {
-    checkEditionForm()
-    submitWork()
+    /*URL.revokeObjectURL(imageUrl)*/
     /* si la réponse est ok: faire un message de confirmation avec un settimeout, puis: 
     /* ajouter à la gallerie */
     /* ajouter au portfolio */
-}
-
-
-
-/**
- * fonction soumission du formulaire:
- * vérifier le formulaire (si la photo est ok et qu'elle existe, remplacer par la photo)
- * faire un ft pour afficher la photo ds la div si ok
- * modifier le bouton selon le statut
- * retour à la gallery avec maj des travaux ds la gallery de la modale
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-

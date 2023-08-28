@@ -29,10 +29,9 @@ export async function postWork(data) {
         body: data,
         headers: {Authorization: `Bearer ${token}`}
         })
-        console.log(response)
         return response
     } catch (error) {
-        console.error(error)
+        console.log("Error adding work:", error)
     }
 
 }
@@ -44,10 +43,9 @@ export async function deleteWork(workId) { /* à revoir */
         method: "DELETE",
         headers: {Authorization: `Bearer ${token}`}
         })
-        const result = await response.json()
-        return result
+        return response
     } catch (error) {
-        console.error(error)
+        console.error("Error deleting work:", error)
     }
 }
 
