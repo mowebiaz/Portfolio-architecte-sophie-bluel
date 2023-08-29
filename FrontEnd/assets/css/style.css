@@ -328,11 +328,25 @@ button[type="submit"]:disabled {
 }
 
 .error {
-	background-color: red;
+	background-color: #ffd6d6;
 	border-radius: 10px;
+	border: 2px solid #fd0d0d;
 	padding: 1rem;
 	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+	/* font-family */
 }
+
+/*.confirm {
+	background-color: #d6ffd6;
+	border-radius: 10px;
+	border: 2px solid #008e00;
+	padding: 1rem;
+	font-weight: bold;
+	/* font-family 
+}*/
 
 .edition {
 	height: 60px;

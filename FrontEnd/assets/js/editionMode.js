@@ -1,3 +1,4 @@
+import { openEditionModal } from "./editionModal.js";
 import { logBtn } from "./loginLogout.js";
 
 const headerEdition = document.createElement("div")

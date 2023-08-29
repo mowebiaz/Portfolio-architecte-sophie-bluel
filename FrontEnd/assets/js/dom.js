@@ -1,9 +1,9 @@
+let alertMessage = document.querySelector(".error")
 
 
 
 // Display an error message for submit login form
 export function displayLoginError(message) {
-    let alertMessage = document.querySelector(".error")
     if (!alertMessage) {
         const form = document.querySelector("#modal-login form")
         const alertMessage = document.createElement("div")
@@ -16,7 +16,6 @@ export function displayLoginError(message) {
 }
 
 export function displayEditionError(message) {
-    let alertMessage = document.querySelector(".error")
     if (!alertMessage) {
         const form = document.querySelector("#modal-edition .modal-content")
         const alertMessage = document.createElement("div")
@@ -25,5 +24,11 @@ export function displayEditionError(message) {
         form.prepend(alertMessage)
     } else {
         alertMessage.innerText = message
+    }
+}
+
+export function removeError() {
+    if (alertMessage) {
+        alertMessage.remove()
     }
 }

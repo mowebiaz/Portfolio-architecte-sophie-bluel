@@ -1,5 +1,7 @@
 import { getCategories, postWork, deleteWork, getWorks } from "./api.js"
-import { displayEditionError } from "./dom.js"
+import { displayEditionError, removeError } from "./dom.js"
+import { works, generateOneWorkPortfolio } from "./works.js"
+import { categories } from "./categoryButtons.js";
 
 const editionModal = document.getElementById("modal-edition")
 const modalContent = document.querySelector("#modal-edition .modal-content")
@@ -29,20 +31,20 @@ export function closeModals() {
 // Management of edition modal (with gallery)
 //--------------------------------------------------------------------------------
 
-// Generate the modal's gallery
-function generateEditionGallery(listWorks) {
-    for (let i = 0; i < listWorks.length; i++) {
+
+// Add one work to gallery's modal
+function generateOneWorkGallery(work) {
         const gallery = document.querySelector(".modal-gallery")
 
         const divFigure = document.createElement("div")
         divFigure.classList.add("figure-div")
-        divFigure.setAttribute("id", listWorks[i].id)
-        divFigure.setAttribute("categoryId", listWorks[i].categoryId)
+        divFigure.setAttribute("id", work.id)
+        divFigure.setAttribute("categoryId", work.categoryId)
 
         const figure = document.createElement("figure")
         const figureImage = document.createElement("img")
-        figureImage.src = listWorks[i].imageUrl
-        figureImage.setAttribute("alt", listWorks[i].title)
+        figureImage.src = work.imageUrl
+        figureImage.setAttribute("alt", work.title)
         const figureCaption = document.createElement("figcaption")
         figureCaption.innerText = "éditer"
 
@@ -55,8 +57,16 @@ function generateEditionGallery(listWorks) {
         divFigure.appendChild(figure)
         figure.appendChild(figureImage)
         figure.appendChild(figureCaption)
-    }
 }
+
+// Generate the modal's gallery: add all works
+function generateEditionGallery(listWorks) {
+    listWorks.forEach(work => {
+        generateOneWorkGallery(work)
+    });
+}
+
+
 
 // Generate edition modal with gallery
 export function generateEditionModal(listWorks) {
@@ -84,12 +94,20 @@ async function trashWork() {
             const response = await deleteWork(workId)
             console.log(response)
             if (response.ok) {
+                const result = response.json()
+                console.log(result)
                 Event.target.parentElement.remove()
                 figureToDelete.remove()
             } else {
                 displayEditionError("Impossible de supprimer le travail:", workId)
             }
         })
+    })
+}
+
+function deleteGallery() { /* à terminer */
+    document.getElementById("delete-gallery").addEventListener("click", () => {
+        // appliquer la ft deleteWork() sur tous les works
     })
 }
 
@@ -136,9 +154,9 @@ export function generateEditionForm() {
     returnIcon.style.display = "block"
 }
 
-// fetch categories and add them to the form's select button
+// add categories to the form's select button
 export async function selectCategory() {
-    const categories = await getCategories()
+    /*const categories = await getCategories()*/
     const formSelect = document.getElementById("category")
     categories.forEach(category => {
         const option = document.createElement("option")
@@ -192,10 +210,6 @@ function checkValidity(inputImage, inputTitle, inputCategory) {
 // Validate each input 
 export function checkEditionForm() {
     const containerImg = document.querySelector(".container-img")
-    const containerIcon = document.querySelector(".icon-image svg")
-    const containerLabel = document.querySelector(".container-img label")
-    const containerInput = document.querySelector(".container-img input")
-    const containerParagraphe = document.querySelector(".container-img p")
     const inputImage = document.getElementById("image")
     const inputTitle = document.getElementById("title")
     const inputCategory = document.getElementById("category")
@@ -211,11 +225,11 @@ export function checkEditionForm() {
             } else if (!allowedFormats.includes(selectedImage.type)) {
                 displayEditionError("L'image doit être de type .jpg ou .png")
             } else {  /*valid picture */
-                displayEditionError("")
-                /*containerIcon.style.style.display = "none" à revoir */
-                containerLabel.style.display = "none"
-                containerInput.style.display ="none"
-                containerParagraphe.style.display = "none"
+                removeError() /* ne fonctionne pas */
+                const containerImgElements = containerImg.querySelectorAll(".container-img > *")
+                containerImgElements.forEach(element => {
+                    element.style.display = "none"
+                });
                 const imageUrl = URL.createObjectURL(selectedImage)
                 const showPhoto = `<img src="${imageUrl}" alt="Image Preview">` 
                 containerImg.innerHTML += showPhoto
@@ -258,9 +272,14 @@ export function addWork() {
             console.log(response)
             if (response.ok) {
                 const newWork = await response.json()
-                console.log()
+                console.log(newWork)
+                generateEditionModal(works)
+                generateOneWorkGallery(newWork)
+                editionModal.showModal()
+                trashWork()
+                generateOneWorkPortfolio(newWork)
             } else {
-                displayEditionError("il faut remplir tous les champs")
+                displayEditionError("Impossible d'ajouter le travail")
             }
         })
    /* } else {

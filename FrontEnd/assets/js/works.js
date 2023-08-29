@@ -1,18 +1,20 @@
 // Contains functions for works
 
 import { getWorks, deleteWork } from "./api.js";
+import { categories } from "./categoryButtons.js";
 
 
 // Recover the list of all works
 export let works = await getWorks()
 
+
+
 // Add one work in home page
-function generateOneWork(work) {
+export function generateOneWorkPortfolio(work) {
     const gallery = document.querySelector(".gallery")
     const figure = document.createElement("figure")
-    /*figure.setAttribute("data-category", work.category.name)*/
     figure.setAttribute("id", work.id)
-    figure.dataset.category = work.category.name
+    figure.dataset.categoryid = work.categoryId
     const figureImage = document.createElement("img")
     figureImage.src = work.imageUrl
     figureImage.setAttribute("alt", work.title)
@@ -27,12 +29,7 @@ function generateOneWork(work) {
 // Add all works in the DOM
 export function generateAllWorks(listWorks) {
     listWorks.forEach(work => {
-        generateOneWork(work)
+        generateOneWorkPortfolio(work)
     })
 }
 
-export function deleteGallery() {
-    document.getElementById("delete-gallery").addEventListener("click", () => {
-        // appliquer la ft deleteWork() sur tous les works
-    })
-}

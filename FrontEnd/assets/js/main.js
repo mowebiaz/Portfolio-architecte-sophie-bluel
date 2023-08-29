@@ -27,10 +27,6 @@ modalContent.addEventListener("click", function(event) {
     
 closeModals()
 
-console.log(works[12])
-
-
-
 
 
 
