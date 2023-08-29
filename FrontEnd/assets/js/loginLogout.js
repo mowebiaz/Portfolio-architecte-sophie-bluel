@@ -1,6 +1,8 @@
 import { displayLoginError } from "./dom.js";
 import { postUser } from "./api.js";
 import { generateHomeEdition, removeHomeEdition } from "./editionMode.js";
+import { openEditionModal } from "./editionModal.js";
+import { works } from "./works.js";
 
 export const logBtn = document.querySelector(".log")
 export const loginModal = document.getElementById("modal-login") /*pourquoi export ? */
@@ -83,6 +85,7 @@ export function login() {
 export function loggedUser() { 
     logBtn.removeEventListener("click", openLoginModal)
     generateHomeEdition()
+    openEditionModal(works)
     logBtn.addEventListener("click", submitLogout)
 }
         

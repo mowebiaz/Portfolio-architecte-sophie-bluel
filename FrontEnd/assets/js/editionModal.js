@@ -159,6 +159,7 @@ export function returnToFirstModal(listWorks) {
 }
 
 
+
 // 
 export function openEditionForm(listWorks) {
     generateEditionForm()
@@ -189,7 +190,7 @@ function checkValidity(inputImage, inputTitle, inputCategory) {
 
 
 // Validate each input 
-function checkEditionForm() {
+export function checkEditionForm() {
     const containerImg = document.querySelector(".container-img")
     const containerIcon = document.querySelector(".icon-image svg")
     const containerLabel = document.querySelector(".container-img label")
@@ -239,9 +240,35 @@ function checkEditionForm() {
 }
 
 // Validate and submit the workData
-/*export function addWork() {
+export function addWork() {
     const addForm = document.getElementById("add-work")
     const submitBtn = document.getElementById("submit-work")
+    const inputImage = document.getElementById("image")
+    const inputTitle = document.getElementById("title")
+    const inputCategory = document.getElementById("category")
+
+    /*if (!submitBtn.hasAttribute("disabled")) {*/
+        addForm.addEventListener("submit", async (e) => {
+            let workData = new FormData()
+            workData.append("image", inputImage.files[0])
+            workData.append("title", inputTitle.value)
+            workData.append("category", inputCategory.value)
+            e.preventDefault()
+            const response = await postWork(workData)
+            console.log(response)
+            if (response.ok) {
+                const newWork = await response.json()
+                console.log()
+            } else {
+                displayEditionError("il faut remplir tous les champs")
+            }
+        })
+   /* } else {
+        return
+    }*/
+
+}
+
 
     /* Pour empêcher la modale de se dermer au clic sur submit*/
     /*submitBtn.addEventListener('click', (event) => event.preventDefault())
@@ -268,21 +295,16 @@ function checkEditionForm() {
             } else {
                 displayEditionError("Impossible d'ajouter ce travail")
             }
-        })
-    }    
-}*/
+        })*/
 
-export async function addWork() {
+
+/*export async function addWork() { ça fonctionne 
     const inputImage = document.getElementById("image")
     const inputTitle = document.getElementById("title")
     const inputCategory = document.getElementById("category")
     const addForm = document.getElementById("add-work")
     const submitBtn = document.getElementById("submit-work")
 
-/*     if (submitBtn.hasAttribute("disabled")) {
-        return
-    } else {
-    } */
     addForm.addEventListener("submit", async (e) => {
         let workData = new FormData()
         workData.append("image", inputImage.files[0])
@@ -292,7 +314,7 @@ export async function addWork() {
         const response = await postWork(workData)
         console.log(response)
     })
-}
+}*/
 
 
     /*URL.revokeObjectURL(imageUrl)*/
