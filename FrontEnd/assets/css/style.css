@@ -336,7 +336,6 @@ button[type="submit"]:disabled {
 	display: flex;
 	justify-content: center;
 	margin-top: 15px;
-	/* font-family */
 }
 
 /*.confirm {
@@ -345,7 +344,9 @@ button[type="submit"]:disabled {
 	border: 2px solid #008e00;
 	padding: 1rem;
 	font-weight: bold;
-	/* font-family 
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
 }*/
 
 .edition {
@@ -373,10 +374,18 @@ button[type="submit"]:disabled {
 
 .open-edition {
 	display: flex;
+	flex-direction: row;
 	align-items: center;
 	gap: 9px;
 	border: none; /*reset style */
 	padding: 0; /*reset style */
+	margin: 0; /*reset style */
+}
+
+#introduction .open-edition p {
+	display: flex;
+	align-items: center;
+	margin: 0; /*reset style */
 }
 
 .open-edition:hover {

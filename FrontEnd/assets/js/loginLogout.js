@@ -1,4 +1,4 @@
-import { displayLoginError } from "./dom.js";
+import { displayLoginError } from "./userMessage.js";
 import { postUser } from "./api.js";
 import { generateHomeEdition, removeHomeEdition } from "./editionMode.js";
 import { openEditionModal } from "./editionModal.js";

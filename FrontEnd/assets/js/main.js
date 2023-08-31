@@ -1,9 +1,7 @@
 import { works, generateAllWorks } from "./works.js";
 import { generateDivCategory, filterByCategory } from "./categoryButtons.js";
 import { login, loggedUser } from "./loginLogout.js";
-import { openEditionModal, closeModals, openEditionForm, addWork, checkEditionForm } from "./editionModal.js";
-import { displayEditionError } from "./dom.js";
-import { postWork } from "./api.js";
+import { openEditionForm, closeModals } from "./editionModal.js";
 
 const modalContent = document.querySelector("#modal-edition .modal-content")
 
@@ -21,9 +19,8 @@ if (token === null) {
 modalContent.addEventListener("click", function(event) {
     if (event.target && event.target.id === "add-photo") {
         event.target.addEventListener("click", openEditionForm(works))
-    }})
-    
-    
+    }
+})  
     
 closeModals()
 

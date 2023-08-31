@@ -1,5 +1,5 @@
-import { getCategories, postWork, deleteWork, getWorks } from "./api.js"
-import { displayEditionError, removeError } from "./dom.js"
+import { postWork, deleteWork } from "./api.js"
+import { displayEditionError, removeError } from "./userMessage.js"
 import { works, generateOneWorkPortfolio } from "./works.js"
 import { categories } from "./categoryButtons.js";
 
