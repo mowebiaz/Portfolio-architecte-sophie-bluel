@@ -1,7 +1,7 @@
+//--------------------------------------------------------------------------------
+// User messages - login form
+//--------------------------------------------------------------------------------
 
-
-
-// Display an error message for submit login form
 export function displayLoginError(message) {
     let alertMessage = document.querySelector(".error")
     if (!alertMessage) {
@@ -14,6 +14,32 @@ export function displayLoginError(message) {
         alertMessage.innerText = message
     }
 }
+
+export function displayLoginOk(message) {
+    let alertMessage = document.querySelector(".confirm")
+    if (!alertMessage) {
+        const main = document.querySelector("main")
+        const alertMessage = document.createElement("div")
+        alertMessage.classList.add("confirm")
+        alertMessage.innerText = message
+        main.prepend(alertMessage)
+    } else {
+        alertMessage.innerText = message
+    }
+}
+
+export function removeLoginOk() {
+    let alertMessage = document.querySelector(".confirm")
+    if (alertMessage) {
+        setTimeout(() => {
+            alertMessage.style.display = "none"
+        }, 1000)
+    }
+}
+
+//--------------------------------------------------------------------------------
+// User messages - modal form
+//--------------------------------------------------------------------------------
 
 export function displayEditionError(message) {
     let alertMessage = document.querySelector(".error")

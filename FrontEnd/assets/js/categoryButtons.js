@@ -1,8 +1,8 @@
-import { works } from "./works.js";
 import { getCategories } from "./api.js";
 
 export let categories = await getCategories()
 
+// Generate one button per category
 function generateButtonCategory(categoryId) {
     const divFilters = document.querySelector(".filters")
     const buttonElement = document.createElement("button")
@@ -13,19 +13,21 @@ function generateButtonCategory(categoryId) {
     divFilters.appendChild(buttonElement)
 }
 
-
-// Add one button per category
+// Generate all category buttons
 export function generateDivCategory() {
     const listCategoryId = categories.map(category => category.id)
     listCategoryId.forEach(categoryId => {
         generateButtonCategory(categoryId)
 })}
 
-// 
+// Filter works by category
 export function filterByCategory() {
     const listButtonFilters = document.querySelectorAll(".filters button")
     listButtonFilters.forEach(button => {
         button.addEventListener("click", event => { /* pourqoi pas event.target */
+        console.log("event target", event.target)
+        console.log("event current target", event.currentTarget.target)
+
             event.currentTarget.parentElement.querySelector(".active").classList.remove("active")
             event.currentTarget.classList.add("active")
             const filter = event.currentTarget.getAttribute("data-filter") /*categoryId */

@@ -8,7 +8,6 @@ const modalContent = document.querySelector("#modal-edition .modal-content")
 const returnIcon = document.querySelector(".return")
 
 
-
 //--------------------------------------------------------------------------------
 // close the modal: gallery or form
 //--------------------------------------------------------------------------------
@@ -30,7 +29,6 @@ export function closeModals() {
 //--------------------------------------------------------------------------------
 // Management of edition modal (with gallery)
 //--------------------------------------------------------------------------------
-
 
 // Add one work to gallery's modal
 function generateOneWorkGallery(work) {
@@ -66,10 +64,10 @@ function generateEditionGallery(listWorks) {
     });
 }
 
-
-
 // Generate edition modal with gallery
 export function generateEditionModal(listWorks) {
+    returnIcon.style.display = "none"
+
     modalContent.innerHTML = `<header>Galerie photo</header>
                             <div class="modal-gallery">
                             </div>
@@ -78,39 +76,42 @@ export function generateEditionModal(listWorks) {
                                 <button id="add-photo">Ajouter une photo</button>
                                 <button id="delete-gallery">Supprimer la galerie</button>
                             </div>`
-    returnIcon.style.display = "none"
     generateEditionGallery(listWorks)
 }
 
 // Delete one work from dB, galery and portfolio
-async function trashWork() {
+function trashWork() {
     const trash = document.querySelectorAll(".remove-photo")
     trash.forEach(icon => {
         icon.addEventListener("click", async (Event) => {
             const workId = Event.target.parentElement.id
             const figureToDelete = document.querySelector(`.gallery figure[id="${workId}"]`)
-            console.log("l'id du parent est:", workId)
-            console.log("portfolio:", figureToDelete)
             const response = await deleteWork(workId)
             console.log(response)
             if (response.ok) {
-                const result = response.json()
-                console.log(result)
+                /*const result = await response.json()*/
                 Event.target.parentElement.remove()
                 figureToDelete.remove()
             } else {
-                displayEditionError("Impossible de supprimer le travail:", workId)
+                displayEditionError("Impossible de supprimer le travail: ", workId)
             }
         })
     })
 }
 
-function deleteGallery() { /* à terminer */
+function deleteGallery() { /* à tester */
     document.getElementById("delete-gallery").addEventListener("click", () => {
-        // appliquer la ft deleteWork() sur tous les works
+        works.forEach(async work => {
+            const response = await deleteWork(work.id)
+            if (response.ok) {
+                document.querySelector(`.figure-div[id="${work.id}"]`).remove()
+                document.querySelector(`.gallery figure[id="${work.id}"]`).remove()
+            } else {
+                displayEditionError("Impossible de supprimer le travail: ", work.id)
+            }
+        });
     })
 }
-
 
 // Open the edition modal (gallery): button "Editer"
 export function openEditionModal(listWorks) {
@@ -120,43 +121,41 @@ export function openEditionModal(listWorks) {
             generateEditionModal(listWorks)
             editionModal.showModal()
             trashWork()
-            // supprimer la galery
+            deleteGallery()
         })
     })
 }
 
 
-
-
 //--------------------------------------------------------------------------------
-// Management of edition form (add a work)
+// Management of edition form (to add a work)
 //--------------------------------------------------------------------------------
 
 // Generate the modal body
 export function generateEditionForm() {
+    returnIcon.style.display = "block"
+
     modalContent.innerHTML = `<header>Ajout photo</header>
                         <form method="dialog" id="add-work" novalidate> 
                         <div class="container-img">
                             <i class="fa-solid fa-image icon-image"></i>
                             <label for="image" class="select-img">+ Ajouter photo</label>
-                            <input type="file" name="image" id="image" required>
+                            <input type="file" name="image" id="image">
                             <p>jpg, png : 4mo max</p>
                         </div>
                         <label for="title">Titre</label>
-                        <input type="text" name="title" id="title" required>
+                        <input type="text" name="title" id="title">
                         <label for="category">Catégorie</label>
-                        <select name="category" id="category" required>
+                        <select name="category" id="category">
                             <option value=""></option>
                         </select>  
                         <hr>
                         <button type="submit" id="submit-work" disabled>Valider</button>
                         </form>`
-    returnIcon.style.display = "block"
 }
 
 // add categories to the form's select button
-export async function selectCategory() {
-    /*const categories = await getCategories()*/
+export function selectCategory() {
     const formSelect = document.getElementById("category")
     categories.forEach(category => {
         const option = document.createElement("option")
@@ -176,9 +175,7 @@ export function returnToFirstModal(listWorks) {
     })
 }
 
-
-
-// 
+// Open the edition form and all the functions
 export function openEditionForm(listWorks) {
     generateEditionForm()
     selectCategory()
@@ -192,8 +189,6 @@ export function openEditionForm(listWorks) {
 // Management of the form
 //--------------------------------------------------------------------------------
 
-
-
 function checkValidity(inputImage, inputTitle, inputCategory) {
     const submitBtn = document.getElementById("submit-work")
 
@@ -203,9 +198,6 @@ function checkValidity(inputImage, inputTitle, inputCategory) {
         submitBtn.removeAttribute("disabled");
     }
 }
-
-
-
 
 // Validate each input 
 export function checkEditionForm() {
@@ -225,7 +217,7 @@ export function checkEditionForm() {
             } else if (!allowedFormats.includes(selectedImage.type)) {
                 displayEditionError("L'image doit être de type .jpg ou .png")
             } else {  /*valid picture */
-                removeError() /* ne fonctionne pas */
+                removeError()
                 const containerImgElements = containerImg.querySelectorAll(".container-img > *")
                 containerImgElements.forEach(element => {
                     element.style.display = "none"
@@ -287,56 +279,3 @@ export function addWork() {
     }*/
 
 }
-
-
-    /* Pour empêcher la modale de se dermer au clic sur submit*/
-    /*submitBtn.addEventListener('click', (event) => event.preventDefault())
-    
-    if (submitBtn.hasAttribute("disabled")) {
-        return
-    } else {
-        addForm.addEventListener("submit", async (e) => {
-            e.preventDefault()
-            console.log("c'est le submit du form")
-            const workData = new FormData (addForm)
-            console.log([...workData.entries()])
-            /*const response = await postWork(new FormData(addForm))
-            console.log(response)
-            displayEditionError("xxx")
-
-           /* if (response.ok) {
-                e.preventDefault()
-                const newWork = await response.json()
-                console.log(newWork)
-                displayEditionError("xxx")
-                /*generateEditionModal(works)
-                editionModal.showModal()  
-            } else {
-                displayEditionError("Impossible d'ajouter ce travail")
-            }
-        })*/
-
-
-/*export async function addWork() { ça fonctionne 
-    const inputImage = document.getElementById("image")
-    const inputTitle = document.getElementById("title")
-    const inputCategory = document.getElementById("category")
-    const addForm = document.getElementById("add-work")
-    const submitBtn = document.getElementById("submit-work")
-
-    addForm.addEventListener("submit", async (e) => {
-        let workData = new FormData()
-        workData.append("image", inputImage.files[0])
-        workData.append("title", inputTitle.value)
-        workData.append("category", inputCategory.value)
-        e.preventDefault()
-        const response = await postWork(workData)
-        console.log(response)
-    })
-}*/
-
-
-    /*URL.revokeObjectURL(imageUrl)*/
-    /* si la réponse est ok: faire un message de confirmation avec un settimeout, puis: 
-    /* ajouter à la gallerie */
-    /* ajouter au portfolio */

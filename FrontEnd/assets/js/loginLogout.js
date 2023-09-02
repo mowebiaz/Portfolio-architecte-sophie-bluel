@@ -1,15 +1,16 @@
-import { displayLoginError } from "./userMessage.js";
+import { displayLoginError, displayLoginOk, removeLoginOk } from "./userMessage.js";
 import { postUser } from "./api.js";
 import { generateHomeEdition, removeHomeEdition } from "./editionMode.js";
 import { openEditionModal } from "./editionModal.js";
 import { works } from "./works.js";
 
-export const logBtn = document.querySelector(".log")
-export const loginModal = document.getElementById("modal-login") /*pourquoi export ? */
+const logBtn = document.querySelector(".log")
+const loginModal = document.getElementById("modal-login")
 const loginForm = document.querySelector("#modal-login form")
+const divFilters = document.querySelector(".filters")
 
 //--------------------------------------------------------------------------------
-// The user tries to connect
+// User tries to connect
 //--------------------------------------------------------------------------------
 
 // Check email 
@@ -27,13 +28,9 @@ function passwordValidation(password) {
     }
 }
 
-// Check email, password, if the user is in dB
-// if yes, connection
+// Check email, password, the user's presence in the database
+// Connection
 async function checkUser() {
-/*     const user = new FormData(loginForm)
-    const objUser = Object.fromEntries(user.entries())
-    const jsonUser = JSON.stringify(objUser) */
-
     const email = document.getElementById("email").value
     const password = document.getElementById("password").value
     const user = {email: email, password: password} 
@@ -51,8 +48,10 @@ async function checkUser() {
         const result = await response.json()
         let token = result.token
         window.sessionStorage.setItem("token", token)
-        // on bascule vers l'état connecté
+        // switch to connected state
         loginModal.close()
+        displayLoginOk("Vous êtes connectés")
+        removeLoginOk()
         loggedUser()
     } else {
         displayLoginError("Erreur dans l’identifiant ou le mot de passe")
@@ -70,7 +69,6 @@ const submitLoginForm = (e) => {
     checkUser()
 }
 
-//
 export function login() {
     logBtn.removeEventListener("click", submitLogout)
     logBtn.addEventListener("click", openLoginModal)
@@ -96,6 +94,8 @@ export function loggedUser() {
 
 const submitLogout = () => {
     removeHomeEdition()
+    divFilters.style.display = "flex"
+
     window.sessionStorage.removeItem("token")
     login()
     /* faire un reset du form login ? */

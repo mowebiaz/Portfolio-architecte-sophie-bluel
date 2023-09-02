@@ -23,6 +23,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -60,6 +61,7 @@ header, main {
 
 main {
 	margin: auto;
+	width: 950px;
 }
 
 header {
@@ -69,7 +71,7 @@ header {
 }
 
 section {
-	margin: 50px 0;
+	padding: 50px 0;
 }
 
 h1{
@@ -94,12 +96,14 @@ h2{
 	font-size: 30px;
 	color: #1D6154
 }
+
 nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
 
 }
+
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
@@ -127,23 +131,27 @@ nav li.active:hover {
 	display: flex;
 	align-items: center;
 }
+
 #introduction figure {
-	flex: 1
+	flex: 1;
 }
+
 #introduction img {
 	display: block;
 	margin: auto;
-	width: 80%;
+	width: 100%;
 }
 
 #introduction figcaption {
-	width: 80%;
-	margin: auto;
+	margin-top: 15px;
 }
 
 #introduction article {
-	flex: 1
+	flex: 0.85;
+	padding-left: 70px;
+	box-sizing: border-box;
 }
+
 #introduction h2 {
 	margin-bottom: 1em;
 }
@@ -152,18 +160,12 @@ nav li.active:hover {
 	margin-bottom: 0.5em;
 }
 
-/* #portfolio {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-} */
-
 #portfolio h2 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 30px;
-	margin-bottom: 1em; /*30px */
+	margin-bottom: 50px;
 }
 
 .filters {
@@ -173,7 +175,6 @@ nav li.active:hover {
 	height: 37px;
 	width: 60%;
 	margin: auto;
-	padding: 20px 0 32px 0;
 	/*margin: 51px auto 32px auto; /* pour centrer */
 }
 
@@ -207,6 +208,7 @@ nav li.active:hover {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
+	margin-top: 50px;
 }
 
 .gallery .show {
@@ -221,16 +223,25 @@ nav li.active:hover {
 	width: 100%;
 }
 
-#contact,
-#modal-login form {
-	width: 50%;
+#contact {
+	padding-top: 0;
+}
+
+#contact {
+	width: 40%;
 	margin: auto;
 }
+
+#modal-login form {
+	width: 380px;
+	margin: auto;
+}
+
 #contact > *,
 #modal-login > * {
 	text-align: center;
-
 }
+
 #contact h2{
 	margin-bottom: 20px;
 }
@@ -254,10 +265,20 @@ nav li.active:hover {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+---
+#add-work select ,
+#add-work select option {
+	background-color: inherit; /* bug width firecfox */
+	width: 420px; /* bug with crhome */	
+}
 
 #contact input,
 #modal-login form input {
 	font-size: 1.2em;
+}
+
+#contact input[type="submit"] {
+	height: 36px;
 }
 
 #add-work input,
@@ -310,16 +331,18 @@ button[type="submit"] {
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin : 2em auto;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
 	border: none;
 	cursor: pointer;
+	height: 36px;
 }
 
-button[type="submit"] {
-	height: 50px;
+button[type="submit"]:hover, 
+input[type="submit"]:hover {
+	background-color: #0E2F28;
 }
 
 button[type="submit"]:disabled {
@@ -328,26 +351,31 @@ button[type="submit"]:disabled {
 }
 
 .error {
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
 	background-color: #ffd6d6;
 	border-radius: 10px;
 	border: 2px solid #fd0d0d;
 	padding: 1rem;
 	font-weight: bold;
-	display: flex;
-	justify-content: center;
-	margin-top: 15px;
 }
 
-/*.confirm {
+.confirm {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 70px;
+	left: 50%;
+	transform: translateX(-50%);
+	height: 40px;
+	padding: 0 15px;
 	background-color: #d6ffd6;
 	border-radius: 10px;
 	border: 2px solid #008e00;
-	padding: 1rem;
 	font-weight: bold;
-	display: flex;
-	justify-content: center;
-	margin-top: 15px;
-}*/
+}
 
 .edition {
 	height: 60px;
@@ -414,8 +442,10 @@ footer {
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	padding: 2em;
-	margin: 0 150px;
+	/*padding: 2em;*/
+	/*margin: 0 150px;*/
+	padding-bottom: 20px;
+	padding-right: 105px;
 }
 
 dialog { /* reset style for dialog */
@@ -447,11 +477,10 @@ html:has(dialog[open]) {
 	justify-content: center;
 }
 
-
 #modal-login header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px auto;
+	margin: 100px auto;
 	width: 100%;
 }
 
@@ -471,7 +500,6 @@ html:has(dialog[open]) {
 	border-radius: 10px;
 	display: flex;
 	width: 630px;
-
 }
 
 .modal-content button{
@@ -480,13 +508,13 @@ html:has(dialog[open]) {
 
 .close-modal, 
 .return {
-	display: block;
 	position: absolute;
 	top: 26px;
 	cursor: pointer;
 }
 
 .close-modal {
+	display: block;
 	font-size: 24px;
 	right: 30px;
 }
@@ -511,16 +539,17 @@ html:has(dialog[open]) {
 	grid-auto-flow: row;
 	column-gap: 6px;
 	row-gap: 12px;
-
 }
 
-.modal-gallery img { /* à revoir */
+.modal-gallery img {
 	height: 103px;
 	width: 100%;
 	object-fit: cover;
 }
 
 hr {
+	margin-top: 47px;
+	margin-bottom: 5px;
 	color: #B3B3B3;
 	size: 1px;
 	width: 420px;
@@ -557,6 +586,7 @@ hr {
 	cursor: pointer;
 	border: none;
 	margin: 2em auto;
+	width: 237px;
 }
 
 #add-photo {
@@ -568,10 +598,20 @@ hr {
 	width: 237px;
 }
 
+#add-photo:hover {
+	background-color: #0E2F28;
+}
+
 #delete-gallery {
 	font-weight: 400;
 	color: #D65353;
 	background-color: white;
+	margin-bottom: 48px;
+}
+
+#submit-work {
+	height: 36px;
+	margin-bottom: 55px;
 }
 
 .container-img {
@@ -589,6 +629,8 @@ hr {
 	max-height: 170px;
 	max-width: 420px;
 }
+
+
 
 
 

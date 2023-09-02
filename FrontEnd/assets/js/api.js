@@ -1,24 +1,38 @@
+//--------------------------------------------------------------------------------
 // Contains interactions with API
+//--------------------------------------------------------------------------------
 
 export async function getWorks() {
-    const response = await fetch("http://localhost:5678/api/works")
-    const result = await response.json()
-    return result
+    try {
+        const response = await fetch("http://localhost:5678/api/works")
+        const result = await response.json()
+        return result
+    } catch (error) {
+        console.error("Error in works recovery:", error)
+    }
 }
 
 export async function getCategories() {
-    const response = await fetch("http://localhost:5678/api/categories")
-    const result = await response.json()
-    return result
+    try {        
+        const response = await fetch("http://localhost:5678/api/categories")
+        const result = await response.json()
+        return result
+    } catch (error) {
+        console.error("error in categories recovery:", error)
+    }
 }
 
 export async function postUser(user) {
-    const response = await fetch("http://localhost:5678/api/users/login", {
-        method: "POST", 
-        body: JSON.stringify(user),
-        headers: {"Content-Type": "application/json"}
-    })
-    return response
+    try {        
+        const response = await fetch("http://localhost:5678/api/users/login", {
+            method: "POST", 
+            body: JSON.stringify(user),
+            headers: {"Content-Type": "application/json"}
+        })
+        return response
+    } catch (error) {
+        console.error("user not found:", error)
+    }
 }
 
 export async function postWork(data) {
@@ -46,6 +60,7 @@ export async function deleteWork(workId) { /* à revoir */
         return response
     } catch (error) {
         console.error("Error deleting work:", error)
+        console.log("Error deleting work:", error)
     }
 }
 

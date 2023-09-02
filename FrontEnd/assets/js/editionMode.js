@@ -1,6 +1,4 @@
-import { openEditionModal } from "./editionModal.js";
-import { logBtn } from "./loginLogout.js";
-
+const logBtn = document.querySelector(".log")
 const headerEdition = document.createElement("div")
 const btnEdition = `<button class="open-edition">
                     <i class="fa-regular fa-pen-to-square"></i>
@@ -8,11 +6,13 @@ const btnEdition = `<button class="open-edition">
                     </button>`
 const figCaption = document.createElement("figcaption")
 const h2 = document.querySelector("#portfolio h2")
-
+const divFilters = document.querySelector(".filters")
 
 
 // Create the homepage in edition mode
 export function generateHomeEdition() {
+    divFilters.style.display = "none"
+
     headerEdition.classList.add("edition")
     headerEdition.innerHTML = `<div class="edition-nav">
     <button class="open-edition">
@@ -29,13 +29,12 @@ export function generateHomeEdition() {
     figCaption.innerHTML = btnEdition
     figureIntro.append(figCaption)
 
-    logBtn.innerHTML = "Logout" /* pourquoi ça ne marche pas avec innertext ? */
+    logBtn.innerHTML = "Logout"
 }
 
 // Delete edition mode from home page
 export function removeHomeEdition() {
     headerEdition.remove()
-    /*document.querySelectorAll(btnEdition).remove()*/
     figCaption.remove()
     h2.innerHTML = "Mes Projets"
     logBtn.innerHTML = "Login"

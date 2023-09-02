@@ -1,15 +1,14 @@
-// Contains functions for works
+//--------------------------------------------------------------------------------
+// Functions for home page works
+//--------------------------------------------------------------------------------
 
-import { getWorks, deleteWork } from "./api.js";
-import { categories } from "./categoryButtons.js";
+import { getWorks } from "./api.js";
 
 
 // Recover the list of all works
 export let works = await getWorks()
 
-
-
-// Add one work in home page
+// Add one work to the home page
 export function generateOneWorkPortfolio(work) {
     const gallery = document.querySelector(".gallery")
     const figure = document.createElement("figure")
@@ -26,7 +25,7 @@ export function generateOneWorkPortfolio(work) {
     // prévoir de l'ajouter au localStorage ou sessionStorage ?
 }
 
-// Add all works in the DOM
+// Add all works to the home page
 export function generateAllWorks(listWorks) {
     listWorks.forEach(work => {
         generateOneWorkPortfolio(work)
