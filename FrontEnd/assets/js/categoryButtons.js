@@ -24,14 +24,11 @@ export function generateDivCategory() {
 export function filterByCategory() {
     const listButtonFilters = document.querySelectorAll(".filters button")
     listButtonFilters.forEach(button => {
-        button.addEventListener("click", event => { /* pourqoi pas event.target */
-        console.log("event target", event.target)
-        console.log("event current target", event.currentTarget.target)
-
-            event.currentTarget.parentElement.querySelector(".active").classList.remove("active")
-            event.currentTarget.classList.add("active")
-            const filter = event.currentTarget.getAttribute("data-filter") /*categoryId */
-            const figures = document.querySelectorAll(".gallery figure")
+        button.addEventListener("click", event => {
+            event.target.parentElement.querySelector(".active").classList.remove("active")
+            event.target.classList.add("active") 
+            const filter = event.target.getAttribute("data-filter") /*categoryId */
+            const figures = document.querySelectorAll(".gallery figure") 
             for (let figure of figures) {
                 if (filter !== figure.dataset.categoryid && filter !== "All") {
                     figure.classList.add("hide")
