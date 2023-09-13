@@ -22,7 +22,6 @@ export function generateOneWorkPortfolio(work) {
     gallery.appendChild(figure)
     figure.appendChild(figureImage)
     figure.appendChild(figureCaption)
-    // prévoir de l'ajouter au localStorage ou sessionStorage ?
 }
 
 // Add all works to the home page

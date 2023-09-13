@@ -23,7 +23,7 @@ export function closeModals() {
         editionModal.close()
         modalContent.innerHTML = ""  
     })
-    modalContent.addEventListener('click', (event) => event.stopPropagation());
+    modalContent.addEventListener('click', (event) => event.stopPropagation())
 }
 
 //--------------------------------------------------------------------------------
@@ -87,9 +87,8 @@ function trashWork() {
             const workId = Event.target.parentElement.id
             const figureToDelete = document.querySelector(`.gallery figure[id="${workId}"]`)
             const response = await deleteWork(workId)
-            console.log(response)
+            /*console.log(response)*/
             if (response.ok) {
-                /*const result = await response.json()*/
                 Event.target.parentElement.remove()
                 figureToDelete.remove()
             } else {
@@ -150,7 +149,7 @@ export function generateEditionForm() {
                             <option value=""></option>
                         </select>  
                         <hr>
-                        <button type="submit" id="submit-work" disabled>Valider</button>
+                        <button type="submit" id="submit-work" class="wrong">Valider</button>
                         </form>`
 }
 
@@ -192,10 +191,10 @@ export function openEditionForm(listWorks) {
 function checkValidity(inputImage, inputTitle, inputCategory) {
     const submitBtn = document.getElementById("submit-work")
 
-    if (inputImage === "" || inputTitle.value.trim() === "" || inputCategory.value === "") {
-        submitBtn.setAttribute("disabled", "true");
+    if (inputImage.value.trim() === "" || inputTitle.value.trim() === "" || inputCategory.value === "") {
+        submitBtn.classList.add("wrong")
     } else {
-        submitBtn.removeAttribute("disabled");
+        submitBtn.classList.remove("wrong")
     }
 }
 
@@ -206,9 +205,9 @@ export function checkEditionForm() {
     const inputTitle = document.getElementById("title")
     const inputCategory = document.getElementById("category")
 
-    inputImage.addEventListener("change", event => {
-        const allowedFormats = ["image/jpeg", "image/jpg", "image/png"];
-        if (inputImage.value.trim() === "") {
+    inputImage.addEventListener("input", event => {
+        const allowedFormats = ["image/jpeg", "image/jpg", "image/png"]
+        if (inputImage.value.trim() === "") { 
             displayEditionError("Vous devez sélectionner une image")
         } else {
             const selectedImage = event.target.files[0]
@@ -216,7 +215,7 @@ export function checkEditionForm() {
                 displayEditionError("L'image ne doit pas excéder 4Mo")
             } else if (!allowedFormats.includes(selectedImage.type)) {
                 displayEditionError("L'image doit être de type .jpg ou .png")
-            } else {  /*valid picture */
+            } else {  /* valid picture */
                 removeError()
                 const containerImgElements = containerImg.querySelectorAll(".container-img > *")
                 containerImgElements.forEach(element => {
@@ -230,17 +229,21 @@ export function checkEditionForm() {
         checkValidity(inputImage, inputTitle, inputCategory)
     })
 
-    inputTitle.addEventListener("change", () => {
+    inputTitle.addEventListener("input", () => { 
         if (inputTitle.value.trim() === "") {
-            displayEditionError("Vous devez indiquer attribuer un titre à votre travail")
-        } 
+            displayEditionError("Vous devez indiquer un titre à votre travail")
+        } else {
+            removeError()
+        }
         checkValidity(inputImage, inputTitle, inputCategory)
     })
 
-    inputCategory.addEventListener("change", () => {
+    inputCategory.addEventListener("input", () => {
         if (inputCategory.value.trim() === "") {
             displayEditionError("Vous devez indiquer une catégorie")
-        } 
+        } else {
+            removeError()
+        }
         checkValidity(inputImage, inputTitle, inputCategory)
     })
 }
@@ -253,13 +256,13 @@ export function addWork() {
     const inputTitle = document.getElementById("title")
     const inputCategory = document.getElementById("category")
 
-    /*if (!submitBtn.hasAttribute("disabled")) {*/
-        addForm.addEventListener("submit", async (e) => {
+    addForm.addEventListener("submit", async (e) => {
+        e.preventDefault()
+        if (!submitBtn.classList.contains("wrong")) {
             let workData = new FormData()
             workData.append("image", inputImage.files[0])
             workData.append("title", inputTitle.value)
             workData.append("category", inputCategory.value)
-            e.preventDefault()
             const response = await postWork(workData)
             console.log(response)
             if (response.ok) {
@@ -273,9 +276,8 @@ export function addWork() {
             } else {
                 displayEditionError("Impossible d'ajouter le travail")
             }
-        })
-   /* } else {
-        return
-    }*/
-
+        } else {
+            displayEditionError("Vous devez remplir tous les champs.")
+        }
+    })
 }

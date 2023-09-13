@@ -24,7 +24,7 @@ function emailValidation(email) {
 // Check password 
 function passwordValidation(password) {
     if (password.trim() === "") {
-        throw new Error("Vous devez indiquer un mot de passe");
+        throw new Error("Vous devez indiquer un mot de passe")
     }
 }
 
@@ -95,7 +95,6 @@ export function loggedUser() {
 const submitLogout = () => {
     removeHomeEdition()
     divFilters.style.display = "flex"
-
     window.sessionStorage.removeItem("token")
     login()
     /* faire un reset du form login ? */
