@@ -12,13 +12,8 @@ const returnIcon = document.querySelector(".return")
 // close the modal: gallery or form
 //--------------------------------------------------------------------------------
 
+// to close the modal when elements outside modal-content are clicked
 export function closeModals() {
-    const editionCloseBtn = document.querySelector("#modal-edition .close-modal") 
-    editionCloseBtn.addEventListener("click", () => {
-        /*editionModal.close() pas nécessaire car le stop.stopPropagation ne le concerne pas */
-        modalContent.innerHTML = ""
-    })   
-    // to close the modal when backdrop is clicked
     editionModal.addEventListener("click", () => {
         editionModal.close()
         modalContent.innerHTML = ""  
@@ -87,10 +82,10 @@ function trashWork() {
             const workId = Event.target.parentElement.id
             const figureToDelete = document.querySelector(`.gallery figure[id="${workId}"]`)
             const response = await deleteWork(workId)
-            /*console.log(response)*/
             if (response.ok) {
                 Event.target.parentElement.remove()
                 figureToDelete.remove()
+                works.splice(works.findIndex(work => work.id === workId), 1)
             } else {
                 displayEditionError("Impossible de supprimer le travail: ", workId)
             }
@@ -98,13 +93,14 @@ function trashWork() {
     })
 }
 
-function deleteGallery() { /* à tester */
+function deleteGallery() {
     document.getElementById("delete-gallery").addEventListener("click", () => {
         works.forEach(async work => {
             const response = await deleteWork(work.id)
             if (response.ok) {
                 document.querySelector(`.figure-div[id="${work.id}"]`).remove()
                 document.querySelector(`.gallery figure[id="${work.id}"]`).remove()
+                works.splice(works.findIndex(work => work.id === workId), 1)
             } else {
                 displayEditionError("Impossible de supprimer le travail: ", work.id)
             }
@@ -132,8 +128,6 @@ export function openEditionModal(listWorks) {
 
 // Generate the modal body
 export function generateEditionForm() {
-    returnIcon.style.display = "block"
-
     modalContent.innerHTML = `<header>Ajout photo</header>
                         <form method="dialog" id="add-work" novalidate> 
                         <div class="container-img">
@@ -151,6 +145,8 @@ export function generateEditionForm() {
                         <hr>
                         <button type="submit" id="submit-work" class="wrong">Valider</button>
                         </form>`
+    returnIcon.style.display = "block"
+
 }
 
 // add categories to the form's select button
@@ -267,12 +263,12 @@ export function addWork() {
             console.log(response)
             if (response.ok) {
                 const newWork = await response.json()
-                console.log(newWork)
                 generateEditionModal(works)
                 generateOneWorkGallery(newWork)
                 editionModal.showModal()
                 trashWork()
                 generateOneWorkPortfolio(newWork)
+                works.push(newWork)
             } else {
                 displayEditionError("Impossible d'ajouter le travail")
             }

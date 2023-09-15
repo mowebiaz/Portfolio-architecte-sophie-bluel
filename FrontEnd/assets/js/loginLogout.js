@@ -15,7 +15,7 @@ const divFilters = document.querySelector(".filters")
 
 // Check email 
 function emailValidation(email) {
-    const emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+") /* à revoir */
+    const emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+")
     if (!emailRegExp.test(email)) {
         throw new Error("Le format de l'email n'est pas valide")
     }
@@ -40,7 +40,7 @@ async function checkUser() {
         passwordValidation(password)
     } catch (error) {
         displayLoginError(error.message)
-        return /* à revoir */
+        return 
     }
 
     const response = await postUser(user)
@@ -97,7 +97,6 @@ const submitLogout = () => {
     divFilters.style.display = "flex"
     window.sessionStorage.removeItem("token")
     login()
-    /* faire un reset du form login ? */
 }
 
   

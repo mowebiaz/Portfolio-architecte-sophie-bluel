@@ -45,13 +45,13 @@ export async function postWork(data) {
         })
         return response
     } catch (error) {
-        console.log("Error adding work:", error)
+        console.error("Error adding work:", error)
     }
 
 }
 
-export async function deleteWork(workId) { /* à revoir */
-    let token = window.sessionStorage.getItem('token') /* avant ou après le try ? */
+export async function deleteWork(workId) { 
+    let token = window.sessionStorage.getItem('token') 
     try {
         const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
@@ -60,7 +60,6 @@ export async function deleteWork(workId) { /* à revoir */
         return response
     } catch (error) {
         console.error("Error deleting work:", error)
-        console.log("Error deleting work:", error)
     }
 }
 
